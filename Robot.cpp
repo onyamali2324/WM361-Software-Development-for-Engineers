@@ -1,9 +1,12 @@
 #include "Defines.h"
+#include <iostream>
+
+using namespace std;
 
 class Robot {
-    private:{
+    private:
         // Preset Variables
-        const int _robotID;
+        const int _robotID = 1;
         int _softwareVerion;
 
         // Inherited Values
@@ -13,14 +16,14 @@ class Robot {
         int _speed = MEDIUM;
         int _power = MEDIUM;
         int _cleaningMode = AUTO;
-    }
+    
 
 
-    public:{
+    public:
 
         Robot(){
             // Set Default values
-            _robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
+            //_robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
             _softwareVerion = 1; // also preset
         }
 
@@ -29,15 +32,15 @@ class Robot {
             switch(VariableNumber){
                     
                 case SPEEDVAR:
-                    _speed = Value
+                    _speed = Value;
                     break;
 
                 case POWERVAR:
-                    _power = Value
+                    _power = Value;
                     break;
 
                 case CLEANINGVAR:
-                    _cleaningMode = Value
+                    _cleaningMode = Value;
                     break;
 
                 default:
@@ -72,6 +75,6 @@ class Robot {
             _cleaningMode = GOHOME;
         }
 
-    }
+    
 
 };
