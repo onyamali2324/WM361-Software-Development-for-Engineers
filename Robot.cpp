@@ -18,8 +18,6 @@ class Robot {
         // Preset Variables
         int _robotID = 1;
         int _softwareVerion;
-        CommunicationManager* _communicationManager;
-        int _connectionType;
 
         // Inherited Values
         int _batteryPercentage;
@@ -32,15 +30,11 @@ class Robot {
 
     
     public:
-        Robot(){}
 
-        Robot(CommunicationManager* CommsManager,int ConnectionType){
+        Robot(){
             // Set Default values
             //_robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
             _softwareVerion = 1; // also preset
-
-            _connectionType = ConnectionType;
-            _communicationManager = CommsManager;
         }
 
         void SetVALUE(int VariableNumber, int Value){

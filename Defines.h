@@ -15,15 +15,15 @@
 #define SCHEDULE            4
 
 
+enum DataTypes {CleaningVar, PowerVar, SpeedVar};
+
 #define SPEEDVAR            0
 #define POWERVAR            1
 #define CLEANINGVAR         2       // Probs change to set order but should be useable to select variable to return
 
 
-//ConnectionPath
-#define CONNECTBLUETOOTH    0
-#define CONNECTUSB          1
-#define CONNECTWIRE         2
+
+
 
 
 

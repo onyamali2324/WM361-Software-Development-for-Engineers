@@ -10,9 +10,7 @@ using namespace std;
 class CommunicationManager{
 
     private:
-        Robot BluetoothConnection;
-        Robot USBConnection;
-        Robot WireConection;
+        Robot _connectedRobot;
 
         static CommunicationManager* instancePointer;
 
@@ -54,7 +52,7 @@ class CommunicationManager{
 
             // }
 
-            BluetoothConnection = Robot(GetInstance(),CONNECTBLUETOOTH);
+            _connectedRobot = Robot();
 
         }
 };
