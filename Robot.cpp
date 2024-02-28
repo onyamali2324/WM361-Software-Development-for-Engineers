@@ -1,13 +1,25 @@
 #include "Defines.h"
 #include <iostream>
 
+#define ROBOTCPP
+
+#ifndef COMMCPP
+#define COMMCPP
+#include "CommunicationManager.cpp"
+#endif
+
+
+
+
 using namespace std;
 
 class Robot {
     private:
         // Preset Variables
-        const int _robotID = 1;
+        int _robotID = 1;
         int _softwareVerion;
+        CommunicationManager* _communicationManager;
+        int _connectionType;
 
         // Inherited Values
         int _batteryPercentage;
@@ -16,17 +28,20 @@ class Robot {
         int _speed = MEDIUM;
         int _power = MEDIUM;
         int _cleaningMode = AUTO;
+
+
     
-
-
     public:
+        Robot(){}
 
-        Robot(){
+        Robot(CommunicationManager* CommsManager,int ConnectionType){
             // Set Default values
             //_robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
             _softwareVerion = 1; // also preset
-        }
 
+            _connectionType = ConnectionType;
+            _communicationManager = CommsManager;
+        }
 
         void SetVALUE(int VariableNumber, int Value){
             switch(VariableNumber){
@@ -74,7 +89,5 @@ class Robot {
         void SendHome(){
             _cleaningMode = GOHOME;
         }
-
-    
 
 };
