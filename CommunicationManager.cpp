@@ -39,6 +39,9 @@ class CommunicationManager{
 
         void ConnectRobot(){
             _connectedRobot = Robot(2);
+
+
+            
         }
 
 

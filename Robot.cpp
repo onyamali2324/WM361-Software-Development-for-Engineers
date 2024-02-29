@@ -27,11 +27,10 @@ class Robot {
         int _batteryPercentage;
 
         // Changeable Variables
-        int _speed = MEDIUM;
-        int _power = MEDIUM;
-        int _cleaningMode = AUTO;
+        SpeedControl _movementSpeed = SpeedControl::Medium;
+        SpeedControl _power = SpeedControl::Medium;
 
-
+        Statuses _robotStatus = Statuses::Auto;
     
     public:
 
@@ -50,42 +49,53 @@ class Robot {
             return _robotID;
         }
 
-        void SetVALUE(int VariableNumber, int Value){
+
+
+
+
+
+// Might have to split all the getting and setting of types due to inconsistent enum usage throughout variables
+
+        void setVALUE(DataTypes VariableNumber, SpeedControl Value){
             switch(VariableNumber){
                     
-                case SPEEDVAR:
-                    _speed = Value;
-                    break;
-
-                case POWERVAR:
+                case DataTypes::Power:
                     _power = Value;
                     break;
 
-                case CLEANINGVAR:
-                    _cleaningMode = Value;
+                case DataTypes::Speed:
+                    _movementSpeed = Value;
+                    break;
+
+                case DataTypes::Status:
+                    //_robotStatus = Value;
                     break;
 
                 default:
                     cout << "Error!!";
-
             }
-
 
         }
 
-        int getVALUE(int VariableNumber){
-            switch(VariableNumber){
-                    
-                case SPEEDVAR:
-                    return _speed;
-                    break;
 
-                case POWERVAR:
+        void setRobotStatus(Statuses NewRobotStatus){
+            _robotStatus = NewRobotStatus;
+        }
+
+
+        //probably going to have to split due to the int return removes the relation to the enum and not all return paths give same enum
+        int getVALUE(DataTypes VariableNumber){
+            switch(VariableNumber){
+                case DataTypes::Power:
                     return _power;
                     break;
 
-                case CLEANINGVAR:
-                    return _cleaningMode;
+                case DataTypes::Speed:
+                    return _movementSpeed;
+                    break;
+
+                case DataTypes::Status:
+                    return _robotStatus;
                     break;
 
                 default:
@@ -95,7 +105,7 @@ class Robot {
         }
 
         void SendHome(){
-            _cleaningMode = GOHOME;
+            _robotStatus = Statuses::GoingHome;
         }
 
 };
