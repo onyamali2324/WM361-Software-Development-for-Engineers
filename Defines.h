@@ -23,6 +23,8 @@ enum DataTypes {CleaningVar, PowerVar, SpeedVar};
 
 
 
+#define NULLID              -1
+
 
 
 

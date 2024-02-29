@@ -2,6 +2,11 @@ using namespace std;
 
 #define COMMCPP
 
+#ifndef DEFINEH
+#define DEFINEH
+#include "Defines.h"
+#endif
+
 #ifndef ROBOTCPP
 #define ROBOTCPP
 #include "Robot.cpp"
@@ -10,9 +15,9 @@ using namespace std;
 class CommunicationManager{
 
     private:
-        Robot _connectedRobot;
-
         static CommunicationManager* instancePointer;
+
+        Robot _connectedRobot;
 
         CommunicationManager(){
             cout << "Made Comms Manager at Address: " << instancePointer<< endl;
@@ -32,27 +37,26 @@ class CommunicationManager{
 
 
 
-        void ConnectRobot(int ConnectionPath){
-            // switch(ConnectionPath){
-                    
-            //     case CONNECTBLUETOOTH:
-            //         BluetoothConnection = new Robot(GetInstance(),CONNECTBLUETOOTH);
-            //         break;
-
-            //     case CONNECTUSB:
-            //         USBConnection = new Robot(GetInstance(),CONNECTUSB);
-            //         break;
-
-            //     case CONNECTWIRE:
-            //         WireConection = new Robot(GetInstance(),CONNECTWIRE);
-            //         break;
-
-            //     default:
-            //         cout << "Error!!";
-
-            // }
-
-            _connectedRobot = Robot();
-
+        void ConnectRobot(){
+            _connectedRobot = Robot(2);
         }
+
+
+        bool IsRobotConnected(int ConnectedRobotID) {
+            if(ConnectedRobotID == NULLID) {            // if checking if ANY robot is connected
+                if(_connectedRobot.GetRobotID() == NULLID){     // if no robot connected
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                if(_connectedRobot.GetRobotID() == ConnectedRobotID){     // if specified robot is connected
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        
 };

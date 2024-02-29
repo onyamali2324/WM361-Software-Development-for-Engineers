@@ -1,12 +1,16 @@
-#include "Defines.h"
+
 #include <iostream>
 
 #define ROBOTCPP
 
-#ifndef COMMCPP
-#define COMMCPP
-#include "CommunicationManager.cpp"
+#ifndef DEFINEH
+#define DEFINEH
+#include "Defines.h"
 #endif
+// #ifndef COMMCPP
+// #define COMMCPP
+// #include "CommunicationManager.cpp"
+// #endif
 
 
 
@@ -16,7 +20,7 @@ using namespace std;
 class Robot {
     private:
         // Preset Variables
-        int _robotID = 1;
+        int _robotID;
         int _softwareVerion;
 
         // Inherited Values
@@ -33,8 +37,17 @@ class Robot {
 
         Robot(){
             // Set Default values
-            //_robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
+            _robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
             _softwareVerion = 1; // also preset
+        }
+
+        Robot(int IDandVersion){
+            _robotID = IDandVersion;
+            _softwareVerion = IDandVersion;
+        }
+
+        int GetRobotID(){
+            return _robotID;
         }
 
         void SetVALUE(int VariableNumber, int Value){
@@ -60,7 +73,7 @@ class Robot {
 
         }
 
-        int getVALUE(int VariableNumber, int Value){
+        int getVALUE(int VariableNumber){
             switch(VariableNumber){
                     
                 case SPEEDVAR:
@@ -77,6 +90,7 @@ class Robot {
 
                 default:
                     cout << "Error!!";
+                    return -1;
             }
         }
 
