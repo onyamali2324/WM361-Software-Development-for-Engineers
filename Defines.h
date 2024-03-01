@@ -3,7 +3,7 @@
 // #define MEDIUM              1
 // #define HIGH                2
 
-enum SpeedControl {Low, Medium, High};
+enum LevelValue {Low, Medium, High};
 
 // Power (IO)
 #define OFF                 0
@@ -25,8 +25,33 @@ enum DataTypes {Power, Speed, Status};
 
 enum Statuses {Off, Auto, Manual, GoingHome, AtHome, Scheduled, Error};
 
+struct BasicDataStruct {
+    // Preset Variables
+    std::string _robotName;
+    int ModelNumber;
+    int _softwareVerion;
+
+    // Inherited Values
+    int _batteryPercentage;
+    LevelValue DustTrayLevel;
+
+    // Changeable Variables
+    LevelValue _movementSpeed = LevelValue::Medium;
+    LevelValue _power = LevelValue::Medium;
+
+    Statuses _robotStatus = Statuses::Auto;
+    std::time_t NextCleanTime;
 
 
+};
+
+
+struct AdvancedDataStruct{
+    int DustCollected;
+    std::time_t TimeCleaned;
+    std::string ErrorLog;
+    
+};
 
 #define NULLID              -1
 
