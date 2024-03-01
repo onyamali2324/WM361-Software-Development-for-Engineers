@@ -39,6 +39,10 @@ int LoginPrompt(){
     return 0;
 }
 
+void Command(const std::string& command) {
+    // Add commands process here
+}
+
 int main(){
 
     CommunicationManager::GetInstance()->ConnectRobot();
@@ -49,9 +53,22 @@ int main(){
 
     WelcomeMessage();
 
-
-
     LoginPrompt();
+    std::string command;
+    while (true) {
+        std::cout << "> ";  // Command prompt
+        std::getline(std::cin, command);
+
+        // Check for exit command
+        if (command == "exit") {
+            std::cout << "Exiting the program. Goodbye!" << std::endl;
+            break;
+        }
+
+        // Process the entered command
+        Command(command);
+    }
+
 
 
     return 0;
