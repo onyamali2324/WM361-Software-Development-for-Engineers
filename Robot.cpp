@@ -19,7 +19,7 @@ using namespace std;
 
 class Robot {
     private:
-        // Preset Variables
+       // Preset Variables
         int _robotID;
         int _softwareVerion;
 
@@ -27,10 +27,16 @@ class Robot {
         int _batteryPercentage;
 
         // Changeable Variables
-        SpeedControl _movementSpeed = SpeedControl::Medium;
-        SpeedControl _power = SpeedControl::Medium;
+        LevelValue _movementSpeed = LevelValue::Medium;
+        LevelValue _power = LevelValue::Medium;
 
-        Statuses _robotStatus = Statuses::Auto;
+        Statuses _robotStatus = Statuses::Auto; 
+
+
+        std::time_t StartCleanTime;
+
+
+
     
     public:
 
@@ -56,7 +62,7 @@ class Robot {
 
 // Might have to split all the getting and setting of types due to inconsistent enum usage throughout variables
 
-        void setVALUE(DataTypes VariableNumber, SpeedControl Value){
+        void setVALUE(DataTypes VariableNumber, LevelValue Value){
             switch(VariableNumber){
                     
                 case DataTypes::Power:
@@ -75,11 +81,6 @@ class Robot {
                     cout << "Error!!";
             }
 
-        }
-
-
-        void setRobotStatus(Statuses NewRobotStatus){
-            _robotStatus = NewRobotStatus;
         }
 
 
@@ -104,6 +105,50 @@ class Robot {
             }
         }
 
+
+// --------------------------------------------------------------------------------------
+        int GetAdvancedData(){          // Change to Struct
+            return 1;
+        }
+
+        int GetBasicData(){          // Change to Struct
+            return 1;
+        }
+
+//-------
+
+        LevelValue GetSpeed(){
+            return _movementSpeed;
+        }
+
+        LevelValue GetPower(){
+            return _power;
+        }
+
+        Statuses GetStatus(){
+            return _robotStatus;
+        }
+
+        int GetBatteryStatus(){
+            return _batteryPercentage;
+        }
+
+//------------------------------------------------------------------------------------
+        void SetSpeed(LevelValue NewSpeed){
+            _movementSpeed = NewSpeed;
+        }
+
+        void SetPower(LevelValue NewPower){
+            _power = NewPower;
+        }
+
+        void SetStatus(Statuses NewStatus){                // Maybe remove this so we can change other variables as start cleaning and stop cleaning
+            _robotStatus = NewStatus;
+        }
+
+
+
+//---------------------------------------------------------------------------------
         void SendHome(){
             _robotStatus = Statuses::GoingHome;
         }
