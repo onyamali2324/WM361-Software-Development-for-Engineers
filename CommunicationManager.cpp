@@ -39,9 +39,6 @@ class CommunicationManager{
 
         void ConnectRobot(){
             _connectedRobot = Robot(2);
-
-
-            
         }
 
 
@@ -61,5 +58,11 @@ class CommunicationManager{
             }
         }
 
-        
+        int GetRobotSpeed(){
+
+            return 1;
+        }
+
+
+
 };

@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <ctime>
 
 #define ROBOTCPP
 
@@ -22,6 +23,7 @@ class Robot {
        // Preset Variables
         int _robotID;
         int _softwareVerion;
+        int _robotModel;
 
         // Inherited Values
         int _batteryPercentage;
@@ -29,21 +31,63 @@ class Robot {
         // Changeable Variables
         LevelValue _movementSpeed = LevelValue::Medium;
         LevelValue _power = LevelValue::Medium;
+        LevelValue _dustLevel = LevelValue::Low;
 
         Statuses _robotStatus = Statuses::Auto; 
 
 
-        std::time_t StartCleanTime;
+        std::time_t LastCleaningTime;
+        std::time_t NextCleanTime;
+        int CleaningDurationMs = 2*60*60*1000;
+        
+        Coordinates Position = {0,0};
 
 
 
+        int GetDirtCollected(){
+            std::time_t TimeCleaning;
+            if(this->_robotStatus == Statuses::Auto || this->_robotStatus == Statuses::Manual){
+                TimeCleaning = time(nullptr) - LastCleaningTime;
+            } else {
+                TimeCleaning = CleaningDurationMs;
+            }
+
+            int DirtCollected = TimeCleaning * (1/33000) * (this->_power / 10);
+
+            if(DirtCollected/7200000>0.6){
+                _dustLevel = LevelValue::High;
+            }else if(DirtCollected/7200000>0.3){
+                _dustLevel = LevelValue::Medium;
+            }else{
+                _dustLevel = LevelValue::Low;
+            }
+            return DirtCollected;
+        }
     
+        void UpdateBatteryLevel(){
+
+
+        }
+
+        void UpdateRobot(){
+            if(_robotStatus == Statuses::Scheduled && NextCleanTime < std::time(nullptr)){
+                LastCleaningTime =NextCleanTime;
+                this->_robotStatus = Statuses::Auto;
+            } else if (this->_robotStatus == Statuses::Auto && LastCleaningTime+CleaningDurationMs < std::time(nullptr)) {
+                this->_robotStatus=Statuses::GoingHome;
+                 
+            }
+
+        }
+
+
     public:
 
         Robot(){
             // Set Default values
             _robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
             _softwareVerion = 1; // also preset
+            _robotModel = 1;
         }
 
         Robot(int IDandVersion){
@@ -57,62 +101,35 @@ class Robot {
 
 
 
-
-
-
-// Might have to split all the getting and setting of types due to inconsistent enum usage throughout variables
-
-        void setVALUE(DataTypes VariableNumber, LevelValue Value){
-            switch(VariableNumber){
-                    
-                case DataTypes::Power:
-                    _power = Value;
-                    break;
-
-                case DataTypes::Speed:
-                    _movementSpeed = Value;
-                    break;
-
-                case DataTypes::Status:
-                    //_robotStatus = Value;
-                    break;
-
-                default:
-                    cout << "Error!!";
-            }
-
-        }
-
-
-        //probably going to have to split due to the int return removes the relation to the enum and not all return paths give same enum
-        int getVALUE(DataTypes VariableNumber){
-            switch(VariableNumber){
-                case DataTypes::Power:
-                    return _power;
-                    break;
-
-                case DataTypes::Speed:
-                    return _movementSpeed;
-                    break;
-
-                case DataTypes::Status:
-                    return _robotStatus;
-                    break;
-
-                default:
-                    cout << "Error!!";
-                    return -1;
-            }
-        }
-
-
 // --------------------------------------------------------------------------------------
-        int GetAdvancedData(){          // Change to Struct
-            return 1;
+        AdvancedDataStruct GetAdvancedData(){
+            UpdateRobot();
+            AdvancedDataStruct AdvData;
+
+            AdvData.AuditLogs = "BingoBongo";
+            AdvData.ErrorLog = "Shit! the house is on fire!";
+            AdvData.ModelNumber = this->_robotModel;
+            AdvData._softwareVerion = this->_softwareVerion;
+            AdvData.LastDirtCollected = this->GetDirtCollected();
+            AdvData.TimeCleaned = this->LastCleaningTime;
+            return AdvData;
         }
 
-        int GetBasicData(){          // Change to Struct
-            return 1;
+        BasicDataStruct GetBasicData(){
+            UpdateRobot();
+            BasicDataStruct BasicData;
+
+            BasicData.RobotName = this->_robotID;
+            // Inherited Values
+            BasicData.BatteryPercentage = this->_batteryPercentage;
+            BasicData.DustTrayLevel = this->_dustLevel;
+            // Changeable Variables
+            BasicData.MovementSpeed = this->_movementSpeed;
+            BasicData.Power = this->_power;
+            BasicData.RobotStatus = this->_robotStatus;
+            BasicData.NextCleanTime = this->NextCleanTime;
+
+            return BasicData;
         }
 
 //-------

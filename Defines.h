@@ -2,8 +2,8 @@
 // #define LOW                 0
 // #define MEDIUM              1
 // #define HIGH                2
-
-enum LevelValue {Low, Medium, High};
+#include <ctime>
+enum LevelValue {Low=1, Medium, High};
 
 // Power (IO)
 #define OFF                 0
@@ -16,41 +16,43 @@ enum LevelValue {Low, Medium, High};
 // #define NOCLEAN             3
 // #define SCHEDULE            4
 
-
-enum DataTypes {Power, Speed, Status};
-
 // #define SPEEDVAR            0
 // #define POWERVAR            1
 // #define CLEANINGVAR         2       // Probs change to set order but should be useable to select variable to return
 
-enum Statuses {Off, Auto, Manual, GoingHome, AtHome, Scheduled, Error};
+enum Statuses {Off, Auto, Manual, GoingHome, Scheduled, Error};
+
+struct Coordinates{int X,Y;};
+
 
 struct BasicDataStruct {
     // Preset Variables
-    std::string _robotName;
-    int ModelNumber;
-    int _softwareVerion;
+    std::string RobotName;
 
     // Inherited Values
-    int _batteryPercentage;
+    int BatteryPercentage;
     LevelValue DustTrayLevel;
 
     // Changeable Variables
-    LevelValue _movementSpeed = LevelValue::Medium;
-    LevelValue _power = LevelValue::Medium;
+    LevelValue MovementSpeed = LevelValue::Medium;
+    LevelValue Power = LevelValue::Medium;
 
-    Statuses _robotStatus = Statuses::Auto;
+    Statuses RobotStatus = Statuses::Auto;
     std::time_t NextCleanTime;
-
-
 };
 
 
 struct AdvancedDataStruct{
-    int DustCollected;
-    std::time_t TimeCleaned;
     std::string ErrorLog;
+    std::string AuditLogs;
+
+    int ModelNumber;
+    int _softwareVerion;
     
+    std::time_t TimeCleaned;
+
+    int LastDirtCollected;
+     
 };
 
 #define NULLID              -1
