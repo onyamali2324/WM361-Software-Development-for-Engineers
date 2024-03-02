@@ -63,6 +63,8 @@ class CommunicationManager{
             return 1;
         }
 
-
+        void SendRobotHome(){
+            _connectedRobot.SendHome();
+        }
 
 };

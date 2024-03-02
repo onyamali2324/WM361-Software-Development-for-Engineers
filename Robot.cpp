@@ -38,25 +38,20 @@ class Robot {
 
         std::time_t LastCleaningTime;
         std::time_t NextCleanTime;
-        int CleaningDurationMs = 2*60*60*1000;
+        int CleaningDurationS = 2*60*60;
         
         Coordinates Position = {0,0};
 
 
 
         int GetDirtCollected(){
-            std::time_t TimeCleaning;
-            if(this->_robotStatus == Statuses::Auto || this->_robotStatus == Statuses::Manual){
-                TimeCleaning = time(nullptr) - LastCleaningTime;
-            } else {
-                TimeCleaning = CleaningDurationMs;
-            }
+            std::time_t TimeCleaning = GetRecentCleaningTime();
 
-            int DirtCollected = TimeCleaning * (1/33000) * (this->_power / 10);
+            int DirtCollected = TimeCleaning * (1/25) * (this->_power / 10);
 
-            if(DirtCollected/7200000>0.6){
+            if(DirtCollected/7200>0.6){
                 _dustLevel = LevelValue::High;
-            }else if(DirtCollected/7200000>0.3){
+            }else if(DirtCollected/7200>0.3){
                 _dustLevel = LevelValue::Medium;
             }else{
                 _dustLevel = LevelValue::Low;
@@ -64,24 +59,45 @@ class Robot {
             return DirtCollected;
         }
     
-        void UpdateBatteryLevel(){
-
-
+        int UpdateBatteryLevel(){
+            if(this->_robotStatus == Statuses::Auto || this->_robotStatus == Statuses::Manual){
+                std::time_t TimeCleaning = GetRecentCleaningTime();
+                return (93*TimeCleaning/7200) + 7;
+            }else{
+                std::time_t TimeOnCharge = std::time(nullptr) - (LastCleaningTime + CleaningDurationS);
+                if(TimeOnCharge<4*60*60){
+                    _batteryPercentage = (TimeOnCharge*93/(4*60*60)) + 7;
+                } else {
+                    _batteryPercentage = 100;
+                }
+            }
         }
 
         void UpdateRobot(){
+            UpdateBatteryLevel();
+            GetDirtCollected();
             if(_robotStatus == Statuses::Scheduled && NextCleanTime < std::time(nullptr)){
                 LastCleaningTime =NextCleanTime;
                 this->_robotStatus = Statuses::Auto;
-            } else if (this->_robotStatus == Statuses::Auto && LastCleaningTime+CleaningDurationMs < std::time(nullptr)) {
+            } else if (this->_robotStatus == Statuses::Auto && (LastCleaningTime+CleaningDurationS < std::time(nullptr) || _batteryPercentage <= 7)) {  //Indicator its scheduled cleaning again
                 this->_robotStatus=Statuses::GoingHome;
-                 
+                this->Position = {0,0};
+                this->_robotStatus=Statuses::Scheduled;
             }
-
         }
 
 
     public:
+
+        std::time_t GetRecentCleaningTime(){
+            std::time_t TimeCleaning;
+            if(this->_robotStatus == Statuses::Auto || this->_robotStatus == Statuses::Manual){
+                TimeCleaning = time(nullptr) - LastCleaningTime;
+            } else {
+                TimeCleaning = CleaningDurationS;
+            }
+            return TimeCleaning;
+        }
 
         Robot(){
             // Set Default values
@@ -159,15 +175,31 @@ class Robot {
             _power = NewPower;
         }
 
-        void SetStatus(Statuses NewStatus){                // Maybe remove this so we can change other variables as start cleaning and stop cleaning
-            _robotStatus = NewStatus;
+//---------------------------------------------------------------------------------
+
+        void ManualMoveForward(){
+            Position.Y +=1;
+        }
+        void ManualMoveBackward(){
+            Position.Y -=1;
+        }
+        void ManualMoveLeft(){
+            Position.X -=1;
+        }
+        void ManualMoveRight(){
+            Position.X +=1;
         }
 
-
-
-//---------------------------------------------------------------------------------
         void SendHome(){
             _robotStatus = Statuses::GoingHome;
+            std::cout << "Robot returning Home..." << std::endl;
+            std::time_t StartHomeTime = std::time(nullptr);
+            std::time_t TimeRunning = std::time(nullptr) - StartHomeTime;
+            while(TimeRunning < 5){
+                TimeRunning = std::time(nullptr) - StartHomeTime;
+            }
+            Position = {0,0};
+            std::cout << "Robot at home" << std::endl;
         }
 
 };
