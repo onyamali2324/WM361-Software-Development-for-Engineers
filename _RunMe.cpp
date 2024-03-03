@@ -34,17 +34,7 @@ void WelcomeMessage (){
     std::cout << "----------------------------------------------------------------------------------------------"       << std::endl;
 }
 
-int LoginPrompt(){
-    std::cout << "Please enter your User ID:" <<std::endl;
-    std::string User;
-    std::getline(std::cin, User);
 
-    std::cout << User << std::endl;
-
- 
-
-    return 0;
-}
 LevelValue stringToLevel(const std::string& LevelStr) {
     if (LevelStr == "low") {
         return Low;
@@ -68,20 +58,22 @@ int main(){
     std::cout << IsConnected << std::endl;
     TaskManager Tasking;
     WelcomeMessage();
+    std::map<std::string, std::string> entered_logs = Tasking.LoginPrompt();
+    int login_check = Tasking.login_checker(entered_logs);
+    if (login_check == -1){return 0;}
     std::map<std::string, std::function<void()>> commandMapGet = {
-    {"getrobotspeed",[&Tasking]() {Tasking.TaskGetRobotSpeed();}},
-    {"getrobotbattery", [&Tasking]() {Tasking.TaskGetRobotBattery();}},
-    {"getrobotpower",[&Tasking]() { Tasking.TaskGetRobotPower();}},
-    {"getadvanceddata",[&Tasking]() {Tasking.TaskGetRobotsAdvancedData();}},
-    {"getbasicdata",[&Tasking]() {Tasking.TaskGetRobotsBasicData();}},
-    {"getrobotstatus",[&Tasking]() {Tasking.TaskGetRobotStatus();}},
-    {"w",[&Tasking]() {Tasking.TaskMoveForward();}},
-    {"a",[&Tasking]() {Tasking.TaskMoveLeft();}},
-    {"s",[&Tasking]() {Tasking.TaskMoveBackward();}},
-    {"d",[&Tasking]() {Tasking.TaskMoveRight();}}
+    {"getrobotspeed",[&Tasking, login_check]() {Tasking.TaskGetRobotSpeed(login_check);}},
+    {"getrobotbattery", [&Tasking, login_check]() {Tasking.TaskGetRobotBattery(login_check);}},
+    {"getrobotpower",[&Tasking, login_check]() { Tasking.TaskGetRobotPower(login_check);}},
+    {"getadvanceddata",[&Tasking, login_check]() {Tasking.TaskGetRobotsAdvancedData(login_check);}},
+    {"getbasicdata",[&Tasking, login_check]() {Tasking.TaskGetRobotsBasicData(login_check);}},
+    {"getrobotstatus",[&Tasking, login_check]() {Tasking.TaskGetRobotStatus(login_check);}},
+    {"w",[&Tasking, login_check]() {Tasking.TaskMoveForward(login_check);}},
+    {"a",[&Tasking, login_check]() {Tasking.TaskMoveLeft(login_check);}},
+    {"s",[&Tasking, login_check]() {Tasking.TaskMoveBackward(login_check);}},
+    {"d",[&Tasking, login_check]() {Tasking.TaskMoveRight(login_check);}}
     };
 
-    //LoginPrompt();
     std::string command;
     while (true) {
         std::cout << "> ";  // Command prompt
@@ -99,12 +91,12 @@ int main(){
 if (!iss.fail()) {
     // if there is 2 items, then it must be a set command
     if (part1 == "setrobotspeed") {
-        Tasking.TaskSetRobotSpeed(stringToLevel(part2));
+        Tasking.TaskSetRobotSpeed(login_check, stringToLevel(part2));
     } else if (part1 == "setrobotpower") {
-        Tasking.TaskSetRobotPower(stringToLevel(part2));
+        Tasking.TaskSetRobotPower(login_check,stringToLevel(part2));
     } else if (part1 == "setrobotschedule") {
         try {
-            Tasking.TaskSetRobotSchedule(std::stoi(part2));
+            Tasking.TaskSetRobotSchedule(login_check,std::stoi(part2));
         } catch (const std::invalid_argument& e) {
             std::cerr << "Argument is not an int" << std::endl;
         }
