@@ -58,13 +58,94 @@ class CommunicationManager{
             }
         }
 
-        int GetRobotSpeed(){
 
-            return 1;
+//-----------------------------------------
+        int GetRobotSpeed(){
+            LevelValue CurrRobotSpeed = _connectedRobot.GetSpeed();
+            if(CurrRobotSpeed>=LevelValue::Low && CurrRobotSpeed<=LevelValue::High){
+                return CurrRobotSpeed;
+            } else{
+                return -1;
+            }
         }
 
+        int SetRobotSpeed(LevelValue NewSpeed){
+            if(NewSpeed>=LevelValue::Low && NewSpeed<=LevelValue::High){
+                _connectedRobot.SetSpeed(NewSpeed);
+                return 0;
+            } else{
+                return -1;
+            }
+        }
+//-----------------------------------------
+        int GetRobotPower(){
+            LevelValue CurrRobotPower = _connectedRobot.GetPower();
+            if(CurrRobotPower>=LevelValue::Low && CurrRobotPower<=LevelValue::High){
+                return CurrRobotPower;
+            } else{
+                return -1;
+            }
+        }
+
+        int SetRobotPower(LevelValue NewPower){
+            if(NewPower>=LevelValue::Low && NewPower<=LevelValue::High){
+                _connectedRobot.SetPower(NewPower);
+                return 0;
+            } else{
+                return -1;
+            }
+        }
+//-----------------------------------------
+        Statuses GetRobotStatus(){
+            Statuses RobotState = _connectedRobot.GetStatus();
+            if(RobotState >= Statuses::Off && RobotState <= Statuses::Error){
+            return RobotState;
+            } else {
+                return Statuses::Error;
+            }
+        }
+
+        int GetRobotBattery(){
+            int BatteryPercentage = _connectedRobot.GetBatteryStatus();
+            if(BatteryPercentage>=0 && BatteryPercentage <=100){
+                return BatteryPercentage;
+            }else{
+                return -1;
+            }
+        }
+
+        // Get Position???
+
+//----------------------------------------
+        AdvancedDataStruct GetRobotsAdvancedData(){
+            return _connectedRobot.GetAdvancedData();
+        }
+
+        BasicDataStruct GetRobotsBasicData(){
+            return _connectedRobot.GetBasicData();
+        }
+
+//----------------------------------------
+
+        void MoveRobotForward(){
+            _connectedRobot.ManualMoveForward();
+        }
+        void MoveRobotBackward(){
+            _connectedRobot.ManualMoveBackward();            
+        }
+        void MoveRobotLeft(){
+            _connectedRobot.ManualMoveLeft();            
+        }
+        void MoveRobotRight(){
+            _connectedRobot.ManualMoveRight();            
+        }
         void SendRobotHome(){
             _connectedRobot.SendHome();
         }
+
+//------------------------------------------
+
+
+
 
 };
