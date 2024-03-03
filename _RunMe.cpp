@@ -51,13 +51,14 @@ int main(){
 
     bool IsConnected = CommunicationManager::GetInstance()->IsRobotConnected(2);
     Robot ConnectedRobot;
+    CommunicationManager d;
     std::cout << IsConnected << std::endl;
 
     WelcomeMessage();
-    std::map<std::string, std::function<void(Robot&)>> commandMap = {
-    {"GetBatteryStatus", &Robot::GetBatteryStatus},
-    {"GetRecentCleaningTime", &Robot::GetRecentCleaningTime}
-    // Populate with rest of commands
+    std::map<std::string, std::function<int(CommunicationManager&)>> commandMapInt = {
+    {"GetRobotSpeed", CommunicationManager::GetInstance()->GetRobotSpeed()},
+    {"GetRobotPower", CommunicationManager::GetInstance()->GetRobotPower()},
+    {"GetRobotBattery", CommunicationManager::GetInstance()->GetRobotBattery()}
     };
     //LoginPrompt();
     std::string command;
@@ -73,7 +74,7 @@ int main(){
 
         // Process the entered command
         TaskManager Tasking;
-        Tasking.Command(command,ConnectedRobot,commandMap);
+        Tasking.Command(command,ConnectedRobot,commandMapInt);
     }
 
 
