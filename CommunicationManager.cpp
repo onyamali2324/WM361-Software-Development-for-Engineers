@@ -1,5 +1,7 @@
 using namespace std;
 
+#include <ctime>
+
 #define COMMCPP
 
 #ifndef DEFINEH
@@ -11,6 +13,7 @@ using namespace std;
 #define ROBOTCPP
 #include "Robot.cpp"
 #endif
+
 
 class CommunicationManager{
 
@@ -126,26 +129,78 @@ class CommunicationManager{
         }
 
 //----------------------------------------
-
-        void MoveRobotForward(){
-            _connectedRobot.ManualMoveForward();
+        void StartManualRobotMode(){
+            _connectedRobot.StartManualClean();     //Need check?
         }
-        void MoveRobotBackward(){
-            _connectedRobot.ManualMoveBackward();            
+        int MoveRobotForward(){
+            if(_connectedRobot.GetStatus() == Statuses::Manual){
+                _connectedRobot.ManualMoveForward();
+                return 0;
+            } else {
+                return -1;
+            }
         }
-        void MoveRobotLeft(){
-            _connectedRobot.ManualMoveLeft();            
+        int MoveRobotBackward(){
+            if(_connectedRobot.GetStatus() == Statuses::Manual){
+            _connectedRobot.ManualMoveBackward();
+                return 0;
+            } else {
+                return -1;
+            }
         }
-        void MoveRobotRight(){
-            _connectedRobot.ManualMoveRight();            
+        int MoveRobotLeft(){
+            if(_connectedRobot.GetStatus() == Statuses::Manual){
+            _connectedRobot.ManualMoveLeft();
+                return 0;
+            } else {
+                return -1;
+            }
         }
-        void SendRobotHome(){
+        int MoveRobotRight(){
+            if(_connectedRobot.GetStatus() == Statuses::Manual){
+            _connectedRobot.ManualMoveRight();
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+        int SendRobotHome(){
+            if(_connectedRobot.GetStatus() == Statuses::Manual){
             _connectedRobot.SendHome();
+                return 0;
+            } else {
+                return -1;
+            }
         }
 
 //------------------------------------------
 
+    std::time_t GetRobotScheduledTime(){
+        return _connectedRobot.GetScheduledTime();
+    }
 
+    int SetRobotSchedule(int Hour){
+        if(Hour>=0 && Hour<=23){
+            std::time_t TimeSeconds = time(nullptr);
+            struct std::tm *TimeInfo = localtime(&TimeSeconds);
+            TimeInfo->tm_hour = Hour;
+            TimeInfo->tm_min = 0;
+            TimeInfo->tm_sec = 0;
+
+            std::time_t ScheduledSeconds = mktime(TimeInfo);
+
+            if(TimeSeconds>ScheduledSeconds){
+                TimeInfo->tm_mday += 1;
+                ScheduledSeconds = mktime(TimeInfo);
+            }
+
+            _connectedRobot.SetSchedule(ScheduledSeconds);
+            return 0;
+        } else {
+            return -1;
+        }
+
+    }
 
 
 };
