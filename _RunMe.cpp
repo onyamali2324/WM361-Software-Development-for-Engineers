@@ -7,8 +7,8 @@
 #ifndef DEFINEH
 #define DEFINEH
 #include "Defines.h"
-#include "Robot.cpp"
-#include "CommunicationManager.cpp"
+//#include "Robot.cpp"
+//#include "CommunicationManager.cpp"
 #include "TaskManager.cpp"
 #endif
 

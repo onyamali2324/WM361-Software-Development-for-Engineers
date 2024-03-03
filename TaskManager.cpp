@@ -3,8 +3,6 @@
 #include <functional>
 #include <map>
 
-#include "Defines.h"
-#include "Robot.cpp"
 #include "CommunicationManager.cpp"
 
 using namespace std;
@@ -14,6 +12,9 @@ class TaskManager{
             auto it = commandMap.find(command);
             if (it == commandMap.end()) {
             std::cout << "Unknown command: " << command << std::endl;
-        }  
+            } else {
+            std::cout << "bing bang " << it->first << std::endl;
+            }
+          
     }
 };
