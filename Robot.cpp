@@ -43,6 +43,8 @@ class Robot {
         
         Coordinates Position = {0,0};
 
+        std::string _errorLog = "05/03/2024 15:09 - Error: Dust Collection Bin Full! \n 06/03/2024 17:46 - Warning: Low Battery, Robot going home." ;
+        std::string _auditLog = "04/03/2024 09:00 - Robot Software Updated to version 3. \n 05/03/2024 18:34 - Emptied Dust Collection Bin.";
 
 
         int GetDirtCollected(){
@@ -114,14 +116,15 @@ class Robot {
 
         Robot(){
             // Set Default values
-            _robotID = 1; // Change to Dynamic assignment although shouldn't matter as this would be preset
-            _softwareVerion = 1; // also preset
-            _robotModel = 1;
+            _robotID = rand(); // Change to Dynamic assignment although shouldn't matter as this would be preset
+            _softwareVerion = 9.4; // also preset
+            _robotModel = 3;
         }
 
-        Robot(int IDandVersion){
-            _robotID = IDandVersion;
-            _softwareVerion = IDandVersion;
+        Robot(int RobotID){
+            _robotID = RobotID;
+            _softwareVerion = 9.4;
+            _robotModel = 3;
         }
 
         int GetRobotID(){
@@ -135,8 +138,8 @@ class Robot {
             UpdateRobot();
             AdvancedDataStruct AdvData;
 
-            AdvData.AuditLogs = "BingoBongo";
-            AdvData.ErrorLog = "Shit! the house is on fire!";
+            AdvData.AuditLogs = this->_auditLog;
+            AdvData.ErrorLog = this->_errorLog;
             AdvData.ModelNumber = this->_robotModel;
             AdvData._softwareVerion = this->_softwareVerion;
             AdvData.LastDirtCollected = this->GetDirtCollected();
@@ -201,9 +204,15 @@ class Robot {
 
 //---------------------------------------------------------------------------------
 
-        void StartManualClean(){
-            this->LastCleaningTime = time(nullptr);
-            this->_robotStatus = Statuses::Manual;
+        int StartManualClean(){
+            UpdateRobot();
+            if(_batteryPercentage > 7){
+                this->LastCleaningTime = time(nullptr);
+                this->_robotStatus = Statuses::Manual;
+                return 0;
+            } else{
+                return -1;
+            }
         }
 
         void ManualMoveForward(){
@@ -244,10 +253,12 @@ class Robot {
     void SetSchedule(time_t NewScheduledTime){
         NextCleanTime = NewScheduledTime;
         _robotStatus = Statuses::Scheduled;
+        UpdateRobot();
     }
 
     void TurnOff(){
         NextCleanTime = NULLID;
         _robotStatus = Statuses::Off;
+        UpdateRobot();
     }
 };
