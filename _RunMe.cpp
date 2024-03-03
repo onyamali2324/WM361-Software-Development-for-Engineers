@@ -51,14 +51,20 @@ int main(){
 
     bool IsConnected = CommunicationManager::GetInstance()->IsRobotConnected(2);
     Robot ConnectedRobot;
-    CommunicationManager d;
     std::cout << IsConnected << std::endl;
-
+    TaskManager Tasking;
     WelcomeMessage();
-    std::map<std::string, std::function<int(CommunicationManager&)>> commandMapInt = {
-    {"GetRobotSpeed", CommunicationManager::GetInstance()->GetRobotSpeed()},
-    {"GetRobotPower", CommunicationManager::GetInstance()->GetRobotPower()},
-    {"GetRobotBattery", CommunicationManager::GetInstance()->GetRobotBattery()}
+    std::map<std::string, std::function<void()>> commandMapGet = {
+    {"GetRobotSpeed",[&Tasking]() {Tasking.TaskGetRobotSpeed();}},
+    {"GetRobotBattery", [&Tasking]() {Tasking.TaskGetRobotBattery();}},
+    {"GetRobotPower",[&Tasking]() { Tasking.TaskGetRobotPower();}},
+    {"GetAdvancedData",[&Tasking]() {Tasking.TaskGetRobotsAdvancedData();}},
+    {"GetBasicData",[&Tasking]() {Tasking.TaskGetRobotsBasicData();}},
+    {"GetRobotStatus",[&Tasking]() {Tasking.TaskGetRobotStatus();}},
+    {"w",[&Tasking]() {Tasking.TaskMoveForward();}},
+    {"a",[&Tasking]() {Tasking.TaskMoveLeft();}},
+    {"s",[&Tasking]() {Tasking.TaskMoveBackward();}},
+    {"d",[&Tasking]() {Tasking.TaskMoveRight();}}
     };
     //LoginPrompt();
     std::string command;
@@ -73,8 +79,6 @@ int main(){
         }
 
         // Process the entered command
-        TaskManager Tasking;
-        Tasking.Command(command,ConnectedRobot,commandMapInt);
     }
 
 
