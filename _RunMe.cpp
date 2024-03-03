@@ -9,6 +9,7 @@
 #include "Defines.h"
 #include "Robot.cpp"
 #include "CommunicationManager.cpp"
+#include "TaskManager.cpp"
 #endif
 
 
@@ -43,14 +44,6 @@ int LoginPrompt(){
     return 0;
 }
 
-void Command(const std::string& command, Robot& robot, std::map<std::string, std::function<void(Robot&, const std::string&)>>& commandMap) {
-    auto it = commandMap.find(command);
-    if (it != commandMap.end()) {
-        it->second(robot, "some_argument"); // You can pass additional arguments here
-    } else {
-        std::cout << "Unknown command: " << command << std::endl;
-    }
-}
 
 int main(){
 
@@ -61,13 +54,11 @@ int main(){
     std::cout << IsConnected << std::endl;
 
     WelcomeMessage();
-    std::map<std::string, std::function<void(Robot&, const std::string&)>> commandMap = {
+    std::map<std::string, std::function<void(Robot&)>> commandMap = {
     {"GetBatteryStatus", &Robot::GetBatteryStatus},
     {"GetRecentCleaningTime", &Robot::GetRecentCleaningTime}
     // Populate with rest of commands
-
     };
-
     //LoginPrompt();
     std::string command;
     while (true) {
@@ -81,7 +72,8 @@ int main(){
         }
 
         // Process the entered command
-        Command(command,ConnectedRobot,commandMap);
+        TaskManager Tasking;
+        Tasking.Command(command,ConnectedRobot,commandMap);
     }
 
 
