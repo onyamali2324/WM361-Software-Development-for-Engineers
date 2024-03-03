@@ -3,6 +3,7 @@
 // #define MEDIUM              1
 // #define HIGH                2
 #include <ctime>
+#include <string>
 enum LevelValue {Low=1, Medium, High};
 
 // Power (IO)

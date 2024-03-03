@@ -1,13 +1,17 @@
 //Includes
 #include <iostream>
 #include <string>
+#include <functional>
+#include <map>
 
 #ifndef DEFINEH
 #define DEFINEH
 #include "Defines.h"
+#include "Robot.cpp"
+#include "CommunicationManager.cpp"
 #endif
 
-#include "CommunicationManager.cpp"
+
 
 //Variables
 
@@ -39,8 +43,13 @@ int LoginPrompt(){
     return 0;
 }
 
-void Command(const std::string& command) {
-    // Add commands process here
+void Command(const std::string& command, Robot& robot, std::map<std::string, std::function<void(Robot&, const std::string&)>>& commandMap) {
+    auto it = commandMap.find(command);
+    if (it != commandMap.end()) {
+        it->second(robot, "some_argument"); // You can pass additional arguments here
+    } else {
+        std::cout << "Unknown command: " << command << std::endl;
+    }
 }
 
 int main(){
@@ -48,12 +57,18 @@ int main(){
     CommunicationManager::GetInstance()->ConnectRobot();
 
     bool IsConnected = CommunicationManager::GetInstance()->IsRobotConnected(2);
-
+    Robot ConnectedRobot;
     std::cout << IsConnected << std::endl;
 
     WelcomeMessage();
+    std::map<std::string, std::function<void(Robot&, const std::string&)>> commandMap = {
+    {"GetBatteryStatus", &Robot::GetBatteryStatus},
+    {"GetRecentCleaningTime", &Robot::GetRecentCleaningTime}
+    // Populate with rest of commands
 
-    LoginPrompt();
+    };
+
+    //LoginPrompt();
     std::string command;
     while (true) {
         std::cout << "> ";  // Command prompt
@@ -66,7 +81,7 @@ int main(){
         }
 
         // Process the entered command
-        Command(command);
+        Command(command,ConnectedRobot,commandMap);
     }
 
 
