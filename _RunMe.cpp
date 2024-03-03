@@ -4,6 +4,7 @@
 #include <functional>
 #include <map>
 #include <algorithm>
+#include <sstream>
 
 #ifndef DEFINEH
 #define DEFINEH
@@ -44,7 +45,19 @@ int LoginPrompt(){
 
     return 0;
 }
-
+LevelValue stringToLevel(const std::string& LevelStr) {
+    if (LevelStr == "low") {
+        return Low;
+    } else if (LevelStr == "medium") {
+        return Medium;
+    } else if (LevelStr == "high") {
+        return High;
+    } else {
+        // Handle the case when the string is not recognized
+        std::cerr << "Unknown LevelValue: " << LevelStr << std::endl;
+    return Medium;
+    }
+}
 
 int main(){
 
@@ -67,6 +80,7 @@ int main(){
     {"s",[&Tasking]() {Tasking.TaskMoveBackward();}},
     {"d",[&Tasking]() {Tasking.TaskMoveRight();}}
     };
+
     //LoginPrompt();
     std::string command;
     while (true) {
@@ -74,18 +88,42 @@ int main(){
         std::getline(std::cin, command);
 
         transform(command.begin(), command.end(), command.begin(), ::tolower); 
-        std::cout << command << std::endl;
 
+        std::istringstream iss(command);
+        std::string part1;
+        std::string part2;
+
+        // Extract the command and argument
+        iss >> part1 >> part2;
+
+if (!iss.fail()) {
+    // if there is 2 items, then it must be a set command
+    if (part1 == "setrobotspeed") {
+        Tasking.TaskSetRobotSpeed(stringToLevel(part2));
+    } else if (part1 == "setrobotpower") {
+        Tasking.TaskSetRobotPower(stringToLevel(part2));
+    } else if (part1 == "setrobotschedule") {
+        try {
+            Tasking.TaskSetRobotSchedule(std::stoi(part2));
+        } catch (const std::invalid_argument& e) {
+            std::cerr << "Argument is not an int" << std::endl;
+        }
+    }
+} else {
+    // There was no argument, has to be a get function
+    auto it = commandMapGet.find(command);
+    if (it != commandMapGet.end()) {
+        // If the method is found, invoke it
+        it->second();
+    } else {
+        std::cout << "Method not found: " << command << std::endl;
+    }
+}
         // Check for exit command
         if (command == "exit") {
             std::cout << "Exiting the program. Goodbye!" << std::endl;
             break;
         }
-
-        // Process the entered command
     }
-
-
-
-    return 0;
+return 0;
 }
