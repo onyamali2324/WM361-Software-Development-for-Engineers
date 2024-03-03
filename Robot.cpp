@@ -91,7 +91,11 @@ class Robot {
             } else if (this->_robotStatus == Statuses::Auto && (LastCleaningTime+CleaningDurationS < std::time(nullptr) || _batteryPercentage <= 7)) {  //Indicator its scheduled cleaning again
                 this->_robotStatus=Statuses::GoingHome;
                 this->Position = {0,0};
-                this->_robotStatus=Statuses::Scheduled;
+                if(this->NextCleanTime == NULLID){
+                    this->_robotStatus=Statuses::Off;
+                }else{
+                    this->_robotStatus=Statuses::Scheduled;
+                }
             }
         }
 
@@ -197,6 +201,11 @@ class Robot {
 
 //---------------------------------------------------------------------------------
 
+        void StartManualClean(){
+            this->LastCleaningTime = time(nullptr);
+            this->_robotStatus = Statuses::Manual;
+        }
+
         void ManualMoveForward(){
             Position.Y +=1;
         }
@@ -222,4 +231,23 @@ class Robot {
             std::cout << "Robot at home" << std::endl;
         }
 
+//---------------------------------------------------------------------------
+
+    std::time_t GetScheduledTime(){
+        if(_robotStatus == Statuses::Scheduled){
+            return this->NextCleanTime;
+        } else {
+            return -1;
+        }
+    } 
+
+    void SetSchedule(time_t NewScheduledTime){
+        NextCleanTime = NewScheduledTime;
+        _robotStatus = Statuses::Scheduled;
+    }
+
+    void TurnOff(){
+        NextCleanTime = NULLID;
+        _robotStatus = Statuses::Off;
+    }
 };
