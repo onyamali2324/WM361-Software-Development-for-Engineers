@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <ctime>
+//#include <stdlib.h>
 
 #define ROBOTCPP
 
@@ -59,10 +60,10 @@ class Robot {
             return DirtCollected;
         }
     
-        int UpdateBatteryLevel(){
+        void UpdateBatteryLevel(){
             if(this->_robotStatus == Statuses::Auto || this->_robotStatus == Statuses::Manual){
                 std::time_t TimeCleaning = GetRecentCleaningTime();
-                return (93*TimeCleaning/7200) + 7;
+                _batteryPercentage =  (93*TimeCleaning/7200) + 7;
             }else{
                 std::time_t TimeOnCharge = std::time(nullptr) - (LastCleaningTime + CleaningDurationS);
                 if(TimeOnCharge<4*60*60){
@@ -73,9 +74,17 @@ class Robot {
             }
         }
 
+        void UpdatePosition(){
+            if(this->_robotStatus == Statuses::Auto){
+                Position.X = rand();
+                Position.Y = rand();
+            }
+        }
+
         void UpdateRobot(){
             UpdateBatteryLevel();
             GetDirtCollected();
+            UpdatePosition();
             if(_robotStatus == Statuses::Scheduled && NextCleanTime < std::time(nullptr)){
                 LastCleaningTime =NextCleanTime;
                 this->_robotStatus = Statuses::Auto;
@@ -151,27 +160,38 @@ class Robot {
 //-------
 
         LevelValue GetSpeed(){
+            UpdateRobot();
             return _movementSpeed;
         }
 
         LevelValue GetPower(){
+            UpdateRobot();
             return _power;
         }
 
         Statuses GetStatus(){
+            UpdateRobot();
             return _robotStatus;
         }
 
         int GetBatteryStatus(){
+            UpdateRobot();
             return _batteryPercentage;
+        }
+
+        Coordinates GetRobotPosition(){
+            UpdateRobot();
+            return Position;
         }
 
 //------------------------------------------------------------------------------------
         void SetSpeed(LevelValue NewSpeed){
+            UpdateRobot();
             _movementSpeed = NewSpeed;
         }
 
         void SetPower(LevelValue NewPower){
+            UpdateRobot();
             _power = NewPower;
         }
 
