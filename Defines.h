@@ -2,6 +2,8 @@
 // #define LOW                 0
 // #define MEDIUM              1
 // #define HIGH                2
+#include <iostream>
+#include <ostream>
 #include <ctime>
 #include <string>
 enum LevelValue {Low=1, Medium, High};
@@ -40,7 +42,12 @@ struct BasicDataStruct {
 
     Statuses RobotStatus = Statuses::Auto;
     std::time_t NextCleanTime;
+    //friend std::ostream& operator<<(std::ostream os, const BasicDataStruct& val);
 };
+std::ostream& operator<<(std::ostream& os, const BasicDataStruct& val){
+os << "Robot Name :" << val.RobotName << ", Battery Percentage :" << val.BatteryPercentage << ", Dust Tray Level :" << val.DustTrayLevel << ", Speed :" << val.MovementSpeed << ", Power :" << val.Power << ", Robot Status :" << val.RobotStatus << ", Next Clean Time :" << val.NextCleanTime;
+return os; 
+}
 
 
 struct AdvancedDataStruct{
@@ -53,8 +60,12 @@ struct AdvancedDataStruct{
     std::time_t TimeCleaned;
 
     int LastDirtCollected;
-     
+    
 };
+std::ostream& operator<<(std::ostream& os, const AdvancedDataStruct& val){
+os << "Error Log:" << val.ErrorLog << ", Audit Log:" << val.AuditLogs << ", Model Number :" << val.ModelNumber << ", Software Version :" << val._softwareVerion << ", Time Cleaned :" << val. TimeCleaned << ", Last Dire Collected :" << val.LastDirtCollected;
+return os;
+}
 
 #define NULLID              -1
 

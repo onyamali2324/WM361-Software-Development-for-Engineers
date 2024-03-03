@@ -23,13 +23,11 @@ class CommunicationManager{
         Robot _connectedRobot;
 
         CommunicationManager(){
-            //cout << "Made Comms Manager at Address: " << instancePointer<< endl;
+            cout << "Made Comms Manager at Address: " << instancePointer<< endl;
         }
 
 
     public:
-
-
         static CommunicationManager* GetInstance(){
             if( instancePointer == NULL ) {
                 instancePointer = new CommunicationManager();
