@@ -3,6 +3,7 @@
 #include <string>
 #include <functional>
 #include <map>
+#include <algorithm>
 
 #ifndef DEFINEH
 #define DEFINEH
@@ -55,12 +56,12 @@ int main(){
     TaskManager Tasking;
     WelcomeMessage();
     std::map<std::string, std::function<void()>> commandMapGet = {
-    {"GetRobotSpeed",[&Tasking]() {Tasking.TaskGetRobotSpeed();}},
-    {"GetRobotBattery", [&Tasking]() {Tasking.TaskGetRobotBattery();}},
-    {"GetRobotPower",[&Tasking]() { Tasking.TaskGetRobotPower();}},
-    {"GetAdvancedData",[&Tasking]() {Tasking.TaskGetRobotsAdvancedData();}},
-    {"GetBasicData",[&Tasking]() {Tasking.TaskGetRobotsBasicData();}},
-    {"GetRobotStatus",[&Tasking]() {Tasking.TaskGetRobotStatus();}},
+    {"getrobotspeed",[&Tasking]() {Tasking.TaskGetRobotSpeed();}},
+    {"getrobotbattery", [&Tasking]() {Tasking.TaskGetRobotBattery();}},
+    {"getrobotpower",[&Tasking]() { Tasking.TaskGetRobotPower();}},
+    {"getadvanceddata",[&Tasking]() {Tasking.TaskGetRobotsAdvancedData();}},
+    {"getbasicdata",[&Tasking]() {Tasking.TaskGetRobotsBasicData();}},
+    {"getrobotstatus",[&Tasking]() {Tasking.TaskGetRobotStatus();}},
     {"w",[&Tasking]() {Tasking.TaskMoveForward();}},
     {"a",[&Tasking]() {Tasking.TaskMoveLeft();}},
     {"s",[&Tasking]() {Tasking.TaskMoveBackward();}},
@@ -71,6 +72,9 @@ int main(){
     while (true) {
         std::cout << "> ";  // Command prompt
         std::getline(std::cin, command);
+
+        transform(command.begin(), command.end(), command.begin(), ::tolower); 
+        std::cout << command << std::endl;
 
         // Check for exit command
         if (command == "exit") {
