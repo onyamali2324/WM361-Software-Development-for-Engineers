@@ -66,16 +66,16 @@ class TaskManager{
                 return 2;
             }
             }else {
-            std::cout << "Incorrect password." << std::endl;
+            std::cout << "Incorrect password. Exitting Program." << std::endl;
 
             }
         } else {
-        std::cout << "Username not found." << std::endl;
+        std::cout << "Username not found. Exitting Program." << std::endl;
         }
         return -1;
 }
         void TaskGetRobotSpeed(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) ||(login_check == 0)){
             int temp_val = CommunicationManager::GetInstance()->GetRobotSpeed();
             cout << "The current Robot Speed is" << temp_val << endl;
             } else {
@@ -83,7 +83,7 @@ class TaskManager{
             }
         };
         void TaskGetRobotPower(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) ||(login_check == 0)){
             int temp_val = CommunicationManager::GetInstance()->GetRobotPower();
             cout << "The current Robot Power is" << temp_val << endl;
             } else{
@@ -91,7 +91,7 @@ class TaskManager{
             }
         }
         void TaskGetRobotStatus(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) ||(login_check == 0)){
             Statuses temp_val = CommunicationManager::GetInstance()->GetRobotStatus();
             cout << "The current Robot Status is" << temp_val << endl;
             } else {
@@ -99,7 +99,7 @@ class TaskManager{
             }
         }
         void TaskGetRobotBattery(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) ||(login_check == 0)){
                 int temp_val = CommunicationManager::GetInstance()->GetRobotBattery();
                 cout << "The current Robot Battery is" << temp_val << endl;
             } else {
@@ -107,7 +107,7 @@ class TaskManager{
             }
         }
         void TaskGetRobotSchedule(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1)||(login_check == 0)){
                 std::time_t temp_val = CommunicationManager::GetInstance()->GetRobotScheduledTime();
                 cout << "The Scheduled Cleaning Time is :" << temp_val << endl;
             } else {
@@ -123,7 +123,7 @@ class TaskManager{
             }
         }
         void TaskGetRobotsBasicData(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 BasicDataStruct temp_val = CommunicationManager::GetInstance()->GetRobotsBasicData();
                 cout << "The robot basic data is :" << temp_val << endl;
             }else {
@@ -131,7 +131,7 @@ class TaskManager{
             }
         }
         void TaskMoveForward(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 if (CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Manual){
                     cout << "You need to be in Manual to do so !" << endl;
                 } else {
@@ -142,7 +142,7 @@ class TaskManager{
             }
         }
         void TaskMoveBackward(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 if (CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Manual){
                     cout << "You need to be in Manual to do so !" << endl;
                 } else {
@@ -153,7 +153,7 @@ class TaskManager{
             }
         }
         void TaskMoveRight(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 if (CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Manual){
                     cout << "You need to be in Manual to do so !" << endl;
                 } else {
@@ -164,7 +164,7 @@ class TaskManager{
             }
         }
         void TaskMoveLeft(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 if (CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Manual){
                     cout << "You need to be in Manual to do so !" << endl;
                 } else {
@@ -175,7 +175,7 @@ class TaskManager{
             }
         }
         void TaskSetRobotSpeed(int login_check, LevelValue speed){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 CommunicationManager::GetInstance()->SetRobotSpeed(speed);
                 cout << "The new Speed is:" << speed << endl;
             }else {
@@ -183,7 +183,7 @@ class TaskManager{
             }
         }
         void TaskSetRobotPower(int login_check, LevelValue power){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 CommunicationManager::GetInstance()->SetRobotPower(power);
                 cout << "The new Power is:" << power << endl;
             }else {
@@ -191,7 +191,7 @@ class TaskManager{
             }
         }
         void TaskSetRobotSchedule(int login_check, int hour){
-            if ((login_check == 1) || (login_check == 2)){
+            if (login_check == 1){
                 CommunicationManager::GetInstance()->SetRobotSchedule(hour);
                 cout << "The Scheduled Cleaning time is:" << hour << "h" << endl;
             }else {
@@ -200,7 +200,7 @@ class TaskManager{
         }
 
         void TaskSetManual(int login_check){
-            if ((login_check == 1) || (login_check == 2)){
+            if ((login_check == 1) || (login_check == 0)){
                 if ((CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Auto)&&(CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Off)&&(CommunicationManager::GetInstance()->GetRobotStatus() != Statuses::Scheduled)){
                     cout << "In order to set the Robot to Manual Mode it has to be in Scheduled, Off or Auto." << endl;
                 } else {
