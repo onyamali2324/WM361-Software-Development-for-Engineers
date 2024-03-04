@@ -12,6 +12,7 @@
 //#include "Robot.cpp"
 //#include "CommunicationManager.cpp"
 #include "TaskManager.cpp"
+#include "login.cpp"
 #endif
 
 
@@ -57,9 +58,10 @@ int main(){
     Robot ConnectedRobot;
     std::cout << IsConnected << std::endl;
     TaskManager Tasking;
+    LoginManager Login;
     WelcomeMessage();
-    std::map<std::string, std::string> entered_logs = Tasking.LoginPrompt();
-    int login_check = Tasking.login_checker(entered_logs);
+    std::map<std::string, std::string> entered_logs = Login.LoginPrompt();
+    int login_check = Login.login_checker(entered_logs);
     if (login_check == -1){return 0;}
     std::map<std::string, std::function<void()>> commandMapGet = {
     {"getrobotspeed",[&Tasking, login_check]() {Tasking.TaskGetRobotSpeed(login_check);}},
