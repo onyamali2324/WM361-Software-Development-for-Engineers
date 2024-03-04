@@ -7,10 +7,23 @@
 #include <sstream>
 
 #include "CommunicationManager.cpp"
+#include "login.cpp"
 
 using namespace std;
 class TaskManager{
-    public:      
+    private:
+        LoginManager Login;
+    public:
+        std::map<std::string, std::string> RunLoginPrompt(){
+            return Login.LoginPrompt();
+        }
+
+        int login_cred_checker(std::map<std::string, std::string> entered_logins){
+            return Login.login_checker(entered_logins);
+        }
+
+
+
         void TaskGetRobotSpeed(int login_check){
             if ((login_check == 1) ||(login_check == 0)){
             int temp_val = CommunicationManager::GetInstance()->GetRobotSpeed();
