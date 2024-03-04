@@ -30,6 +30,11 @@ Once logged in you will now have access to a list of commands depending on your 
 
 Addtionally there is some movement commands that allow to move the robot when it has been moved to manual mode.
 
+If the user is done, simply enter exit and the program will terminate.
+
+
+To enter the commands just type it after the ">" in the terminal and press Enter, be mindful to not add spaces before or after your command as it will return an error and will prompt for a new command.
+
 #### Get Commands
 
 | Command          | Return                  | Minimum Access Level Required |
