@@ -79,7 +79,12 @@ int main(){
         std::cout << "> ";  // Command prompt
         std::getline(std::cin, command);
 
-        transform(command.begin(), command.end(), command.begin(), ::tolower); 
+        transform(command.begin(), command.end(), command.begin(), ::tolower);
+        // Check for exit command
+        if (command == "exit") {
+            std::cout << "Exiting the program. Goodbye!" << std::endl;
+            break;
+        }
 
         std::istringstream iss(command);
         std::string part1;
@@ -98,7 +103,7 @@ if (!iss.fail()) {
         try {
             Tasking.TaskSetRobotSchedule(login_check,std::stoi(part2));
         } catch (const std::invalid_argument& e) {
-            std::cerr << "Argument is not an int" << std::endl;
+            std::cerr << "Argument has to be an integer" << std::endl;
         }
     }
 } else {
@@ -111,11 +116,7 @@ if (!iss.fail()) {
         std::cout << "Method not found: " << command << std::endl;
     }
 }
-        // Check for exit command
-        if (command == "exit") {
-            std::cout << "Exiting the program. Goodbye!" << std::endl;
-            break;
-        }
+
     }
 return 0;
 }
