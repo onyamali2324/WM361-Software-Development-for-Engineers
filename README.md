@@ -2,6 +2,11 @@
 
 ## How to Run
 
+To run the code just run the executable file located in the Build folder.
+
+
+Alternatively:
+
 In order to run the CLI application for FloorBot Commander, just run the code located in file "_RunMe.cpp" this will print in the terminal what you need. Alternatively if you do no have an IDE (such as VSCode) in a terminal move into the folder where all the files are located and run the following:
 
 ```

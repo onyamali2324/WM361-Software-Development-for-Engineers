@@ -22,7 +22,7 @@ class TaskManager{
             return Login.login_checker(entered_logins);
         }
 
-
+        // All the below functions summon Communication manager methods with added checks in order to follow the logic 
 
         void TaskGetRobotSpeed(int login_check){
             if ((login_check == 1) ||(login_check == 0)){
