@@ -281,4 +281,9 @@ class Robot {
             _robotStatus = Statuses::Off;
             UpdateRobot();
         }
+
+        int UpdateSoftware(){
+            return -1;
+        }
+
 };

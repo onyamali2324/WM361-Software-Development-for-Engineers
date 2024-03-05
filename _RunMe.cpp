@@ -71,6 +71,8 @@ int main(){
     {"getbasicdata",[&Tasking, login_check]() {Tasking.TaskGetRobotsBasicData(login_check);}},
     {"getrobotstatus",[&Tasking, login_check]() {Tasking.TaskGetRobotStatus(login_check);}},
     {"getrobotschedule",[&Tasking, login_check]() {Tasking.TaskGetRobotSchedule(login_check);}},
+    {"updatecli",[&Tasking, login_check]() {Tasking.TaskUpdateCLI(login_check);}},
+    {"updaterobot",[&Tasking, login_check]() {Tasking.TaskUpdateRobot(login_check);}},
     {"w",[&Tasking, login_check]() {Tasking.TaskMoveForward(login_check);}},
     {"a",[&Tasking, login_check]() {Tasking.TaskMoveLeft(login_check);}},
     {"s",[&Tasking, login_check]() {Tasking.TaskMoveBackward(login_check);}},

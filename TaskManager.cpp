@@ -162,5 +162,23 @@ class TaskManager{
             }
         }
 
-        
+        void TaskUpdateCLI(int login_check){
+            if ((login_check == 2)){
+                cout << "latest version FBC V1.2.3 already installed - no available updates" << endl;
+            } else {
+                cout << "You do not have the right to do this action" << endl;
+            }
+        }
+
+        void TaskUpdateRobot(int login_check){
+            if ((login_check == 2)){
+                if(CommunicationManager::GetInstance()->UpdateRobotSoftware()==-1){  
+                    cout << "lastest version RobotOS V3 already installed - no available updates" << endl;
+                } else{
+                    cout << "Update available for robot" << endl;
+                }
+            } else {
+                cout << "You do not have the right to do this action" << endl;
+            }
+        }
 };

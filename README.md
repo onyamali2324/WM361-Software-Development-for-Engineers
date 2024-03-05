@@ -37,15 +37,17 @@ To enter the commands just type it after the ">" in the terminal and press Enter
 
 #### Get Commands
 
-| Command          | Return                  | Minimum Access Level Required |
-| ---------------- | ----------------------- | ----------------------------- |
-| getrobotspeed    | Speed Mode              | 0                             |
-| getrobotbattery  | Battery Percentage      | 0                             |
-| getrobotpower    | Power Mode              | 0                             |
-| getadvanceddata  | Advanced Data Structure | 1                             |
-| getbasicdata     | Basic Data Structure    | 0                             |
-| getrobotstatus   | Robot Status            | 0                             |
-| getrobotschedule | Latest Set Schedule     | 0                             |
+| Command          | Return                    | Minimum Access Level Required |
+| ---------------- | ------------------------- | ----------------------------- |
+| getrobotspeed    | Speed Mode                | 0                             |
+| getrobotbattery  | Battery Percentage        | 0                             |
+| getrobotpower    | Power Mode                | 0                             |
+| getadvanceddata  | Advanced Data Structure   | 1                             |
+| getbasicdata     | Basic Data Structure      | 0                             |
+| getrobotstatus   | Robot Status              | 0                             |
+| getrobotschedule | Latest Set Schedule       | 0                             |
+| updatecli        | If CLI update available   | 2                             |
+| updaterobot      | If robot update available | 2                             |
 
 #### Set Commands
 

@@ -231,5 +231,8 @@ class CommunicationManager{
 
         }
 
-
+        // Checks robot to see if software is up to date
+        int UpdateRobotSoftware(){
+            return _connectedRobot.UpdateSoftware();
+        }
 };
