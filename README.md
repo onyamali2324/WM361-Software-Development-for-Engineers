@@ -2,7 +2,7 @@
 
 ## How to Run
 
-In order to run the CLI application for FloorBot Commander, just run the code located in file "_RunMe.cpp" this will print in the terminal what you need. Alternatively if you do no have an IDE (such as VSCode) in a terminal move into the folder where all the files are located and run the following: 
+In order to run the CLI application for FloorBot Commander, just run the code located in file "_RunMe.cpp" this will print in the terminal what you need. Alternatively if you do no have an IDE (such as VSCode) in a terminal move into the folder where all the files are located and run the following:
 
 ```
 g++ _RunMe.cpp -o _RunMe && "absolute_path_to_folder"_Run
@@ -26,12 +26,11 @@ If there's an issue with the login, you will need to run the script again, follo
 
 ### Command List
 
-Once logged in you will now have access to a list of commands depending on your access level. There is two type of commands, the get commands which allow you to access information about the robot and set commands which allow for customisation on the robot. 
+Once logged in you will now have access to a list of commands depending on your access level. There is two type of commands, the get commands which allow you to access information about the robot and set commands which allow for customisation on the robot.
 
 Addtionally there is some movement commands that allow to move the robot when it has been moved to manual mode.
 
 If the user is done, simply enter exit and the program will terminate.
-
 
 To enter the commands just type it after the ">" in the terminal and press Enter, be mindful to not add spaces before or after your command as it will return an error and will prompt for a new command.
 
@@ -56,6 +55,7 @@ To enter the commands just type it after the ">" in the terminal and press Enter
 | setrobotspeed    | {Low,Medium,High}, not case sensitive | Speed Mode                    | 1                     |
 | setrobotpower    | {Low,Medium,High}, not case sensitive | Power Mode                    | 1                     |
 | setrobotschedule | Integer                               | Next Scheduled Cleaningeaning | 1                     |
+| setmanual        | NA                                    | Mode                          | 0                     |
 
 #### Movement Commands
 

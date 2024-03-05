@@ -76,7 +76,8 @@ int main(){
     {"w",[&Tasking, login_check]() {Tasking.TaskMoveForward(login_check);}},
     {"a",[&Tasking, login_check]() {Tasking.TaskMoveLeft(login_check);}},
     {"s",[&Tasking, login_check]() {Tasking.TaskMoveBackward(login_check);}},
-    {"d",[&Tasking, login_check]() {Tasking.TaskMoveRight(login_check);}}
+    {"d",[&Tasking, login_check]() {Tasking.TaskMoveRight(login_check);}},
+    {"setmanual",[&Tasking, login_check]() {Tasking.TaskSetManual(login_check);}}
     };
 
     std::string command;

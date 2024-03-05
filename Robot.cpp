@@ -22,7 +22,7 @@ class Robot {
         int _softwareVerion;
         int _robotModel;
 
-        int _batteryPercentage;
+        int _batteryPercentage = 100;
         LevelValue _dustLevel = LevelValue::Low;
 
         LevelValue _movementSpeed = LevelValue::Medium;
@@ -30,7 +30,7 @@ class Robot {
         Statuses _robotStatus = Statuses::Auto; 
 
         std::time_t LastCleaningTime;
-        std::time_t NextCleanTime;
+        std::time_t NextCleanTime = NULLID;
         int CleaningDurationS = 2*60*60;
         
         Coordinates Position = {0,0};
