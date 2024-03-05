@@ -24,6 +24,8 @@ Once the script has been started it will prompt to login, currently there is 3 d
 
 If there's an issue with the login, you will need to run the script again, following the stepsin the previous paragraph.
 
+Once logged in it conjnects automatically to the robot.
+
 ### Command List
 
 Once logged in you will now have access to a list of commands depending on your access level. There is two type of commands, the get commands which allow you to access information about the robot and set commands which allow for customisation on the robot.
