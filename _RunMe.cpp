@@ -56,9 +56,7 @@ int main(){
 
     bool IsConnected = CommunicationManager::GetInstance()->IsRobotConnected(2);
     Robot ConnectedRobot;
-    std::cout << IsConnected << std::endl;
     TaskManager Tasking;
-    //LoginManager Login;
     WelcomeMessage();
     std::map<std::string, std::string> entered_logs = Tasking.RunLoginPrompt();
     int login_check = Tasking.login_cred_checker(entered_logs);
