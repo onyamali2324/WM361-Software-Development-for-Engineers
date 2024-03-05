@@ -55,13 +55,13 @@ int main(){
     CommunicationManager::GetInstance()->ConnectRobot();
 
     bool IsConnected = CommunicationManager::GetInstance()->IsRobotConnected(2);
-    Robot ConnectedRobot;
+    Robot ConnectedRobot; //Creating objects in order to summon needed commands
     TaskManager Tasking;
     WelcomeMessage();
     std::map<std::string, std::string> entered_logs = Tasking.RunLoginPrompt();
-    int login_check = Tasking.login_cred_checker(entered_logs);
+    int login_check = Tasking.login_cred_checker(entered_logs); //login process
     if (login_check == -1){return 0;}
-    std::map<std::string, std::function<void()>> commandMapGet = {
+    std::map<std::string, std::function<void()>> commandMapGet = {  //Creating command map to link user input to actual commands
     {"getrobotspeed",[&Tasking, login_check]() {Tasking.TaskGetRobotSpeed(login_check);}},
     {"getrobotbattery", [&Tasking, login_check]() {Tasking.TaskGetRobotBattery(login_check);}},
     {"getrobotpower",[&Tasking, login_check]() { Tasking.TaskGetRobotPower(login_check);}},
