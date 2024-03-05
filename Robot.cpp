@@ -282,6 +282,7 @@ class Robot {
             UpdateRobot();
         }
 
+        // Default no update to robot software
         int UpdateSoftware(){
             return -1;
         }
